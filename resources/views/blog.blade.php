@@ -16,7 +16,7 @@
         <!-- ARTIKEL UTAMA FULL STORY -->
         <article class="space-y-8 sm:space-y-12 text-gray-300">
             
-            <!-- 1. BANNER FOTO MODEL UTAMA (QC: RASIO DIBUAT 3/4 SUPAYA MODEL KELIATAN UTUH DAHSYAT) -->
+            <!-- 1. BANNER FOTO MODEL UTAMA -->
             <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-zinc-950 border border-white/10 shadow-2xl">
                 <div class="aspect-[3/4] sm:aspect-[4/3] w-full overflow-hidden bg-black relative flex items-center justify-center">
                     
@@ -60,11 +60,11 @@
             <!-- 3. SHOWCASE FOTO HOODIE & BANNER STAY TUNED KNITWEAR -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-2">
                 
-                <!-- Foto Hoodie -->
+                <!-- Foto Hoodie (Diperbaiki menggunakan %20 untuk spasi file) -->
                 <div class="space-y-3 bg-zinc-900/60 p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-sm flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="aspect-square rounded-xl overflow-hidden bg-black p-2 flex items-center justify-center">
-                            <img src="{{ asset('images/Love bombing.png') }}" 
+                            <img src="{{ asset('images/Love%20Bombing.png') }}" 
                                  alt="DEABLA Heavyweight Hoodie" 
                                  class="h-full w-full object-contain object-center">
                         </div>
@@ -81,7 +81,6 @@
                 <!-- Banner Knitwear Stay Tuned -->
                 <div class="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/60 via-zinc-900 to-black p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-xl">
                     
-                    <!-- Ambient Glow Effect -->
                     <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-600/30 rounded-full blur-2xl pointer-events-none"></div>
                     <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-pink-600/20 rounded-full blur-2xl pointer-events-none"></div>
 

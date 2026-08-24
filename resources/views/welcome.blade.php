@@ -58,7 +58,7 @@
                 <div @click="showPreview({
                         title: 'DEABLA Zip Hoodie - Love Bombing',
                         price: 'Rp 350.000',
-                        image: '{{ asset('images/Love bombing.png') }}',
+                        image: '{{ asset('images/Love%20Bombing.png') }}',
                         category: 'Article 01 — Zip Hoodie',
                         desc: 'Artikel perdana Love Bombing menghadirkan potongan Boxy Zip-Up Hoodie berwarna hitam pekat dengan grafik font khas DEABLA bernuansa pink magenta & balok nada. Menggunakan material Cotton Fleece Heavyweight 375 GSM yang nyaman dan terstruktur.',
                         badge: 'Article 01'
@@ -66,7 +66,7 @@
                      class="group bg-zinc-900/60 rounded-2xl border border-white/10 overflow-hidden hover:border-pink-500/50 transition duration-300 flex flex-col cursor-pointer shadow-xl backdrop-blur-sm">
                     
                     <div class="aspect-[4/5] w-full overflow-hidden bg-black relative flex items-center justify-center p-2">
-                        <img src="{{ asset('images/Love bombing.png') }}" alt="DEABLA Love Bombing" class="h-full w-full object-contain object-center group-hover:scale-105 transition duration-500">
+                        <img src="{{ asset('images/Love%20Bombing.png') }}" alt="DEABLA Love Bombing" class="h-full w-full object-contain object-center group-hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 text-[8px] sm:text-[10px] font-black uppercase tracking-wider bg-pink-500 text-white px-2.5 py-1 rounded-full shadow-md">Article 01</span>
                     </div>
 

@@ -141,15 +141,15 @@
                 <!-- MENU DESKTOP -->
                 <nav class="hidden md:block relative p-1 bg-white/5 rounded-full border border-white/10"
                      x-data="{
-                        indicatorWidth: 0,
-                        indicatorLeft: 0,
-                        updatePos() {
-                            let active = $el.querySelector('.nav-link-liquid.active') || $el.querySelector('.nav-link-liquid');
-                            if(active) {
-                                this.indicatorWidth = active.offsetWidth;
-                                this.indicatorLeft = active.offsetLeft;
-                            }
-                        }
+                         indicatorWidth: 0,
+                         indicatorLeft: 0,
+                         updatePos() {
+                             let active = $el.querySelector('.nav-link-liquid.active') || $el.querySelector('.nav-link-liquid');
+                             if(active) {
+                                 this.indicatorWidth = active.offsetWidth;
+                                 this.indicatorLeft = active.offsetLeft;
+                             }
+                         }
                      }"
                      x-init="$nextTick(() => updatePos())">
                     
@@ -183,7 +183,7 @@
         @yield('content')
     </main>
 
-    <!-- FOOTER (Ditambahkan pb-28 pada layar mobile) -->
+    <!-- FOOTER -->
     <footer class="bg-black border-t border-pink-500/20 py-8 mt-auto pb-28 md:pb-8">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
             <p>&copy; 2026 DEABLACENTERR.ID Apparel & Co. All rights reserved.</p>
@@ -204,15 +204,15 @@
     <!-- DOCK MOBILE LIQUID GLASS -->
     <nav class="md:hidden glass-navbar-mobile"
          x-data="{
-            indicatorWidth: 0,
-            indicatorLeft: 0,
-            updatePos() {
-                let active = $el.querySelector('.nav-link-mobile.active') || $el.querySelector('.nav-link-mobile');
-                if(active) {
-                    this.indicatorWidth = active.offsetWidth;
-                    this.indicatorLeft = active.offsetLeft;
-                }
-            }
+             indicatorWidth: 0,
+             indicatorLeft: 0,
+             updatePos() {
+                 let active = $el.querySelector('.nav-link-mobile.active') || $el.querySelector('.nav-link-mobile');
+                 if(active) {
+                     this.indicatorWidth = active.offsetWidth;
+                     this.indicatorLeft = active.offsetLeft;
+                 }
+             }
          }"
          x-init="setTimeout(() => updatePos(), 100)">
         
