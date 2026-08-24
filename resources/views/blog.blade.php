@@ -6,8 +6,8 @@
         
         <!-- HEADER BLOG -->
         <div class="border-b border-white/10 pb-6 sm:pb-8 mb-8 sm:mb-12 text-center max-w-2xl mx-auto space-y-2 sm:space-y-3">
-            <span class="text-[9px] sm:text-xs font-black text-pink-500 uppercase tracking-[0.2em] block">Official DEABLA Journal</span>
-            <h1 class="text-2xl sm:text-5xl font-black text-white uppercase tracking-tight">Motto & Filosofi Brand</h1>
+            <span class="text-[9px] sm:text-xs font-black text-pink-500 uppercase tracking-[0.25em] block">Official DEABLA Journal</span>
+            <h1 class="text-2xl sm:text-5xl font-black text-white uppercase tracking-tight drop-shadow-lg">Motto & Filosofi Brand</h1>
             <p class="text-xs sm:text-base text-gray-400 leading-relaxed font-medium">
                 Cerita di balik lahirnya DEABLA, prinsip material pilihan, dan dedikasi kami dalam dunia streetwear.
             </p>
@@ -16,15 +16,24 @@
         <!-- ARTIKEL UTAMA FULL STORY -->
         <article class="space-y-8 sm:space-y-12 text-gray-300">
             
-            <!-- 1. BANNER FOTO MODEL UTAMA -->
+            <!-- 1. BANNER FOTO MODEL UTAMA (QC: RASIO DIBUAT 3/4 SUPAYA MODEL KELIATAN UTUH DAHSYAT) -->
             <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-zinc-950 border border-white/10 shadow-2xl">
-                <div class="aspect-[16/9] w-full overflow-hidden bg-zinc-900 relative">
+                <div class="aspect-[3/4] sm:aspect-[4/3] w-full overflow-hidden bg-black relative flex items-center justify-center">
+                    
+                    <!-- AMBIENT GLOW BACKGROUND DARI FOTO -->
+                    <img src="{{ asset('images/blog-banner.png') }}" 
+                         alt="Background Glow" 
+                         class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-30 scale-125 pointer-events-none">
+
+                    <!-- FOTO MODEL UTUH 100% TANPA KEPOTONG -->
                     <img src="{{ asset('images/blog-banner.png') }}" 
                          alt="Model DEABLA Wear" 
-                         class="h-full w-full object-cover object-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+                         class="relative z-10 h-full w-full object-contain object-center">
+
+                    <div class="absolute inset-0 z-20 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80 pointer-events-none"></div>
                 </div>
-                <div class="p-5 sm:p-8 bg-zinc-900/90 border-t border-white/10 space-y-2">
+
+                <div class="p-5 sm:p-8 bg-zinc-900/90 border-t border-white/10 space-y-2 relative z-30">
                     <span class="text-[9px] sm:text-xs font-black text-pink-400 uppercase tracking-widest">Lookbook 2026</span>
                     <h2 class="text-lg sm:text-3xl font-black text-white uppercase tracking-tight">
                         "Raw Power in Minimalist Silhouette"
@@ -54,10 +63,10 @@
                 <!-- Foto Hoodie -->
                 <div class="space-y-3 bg-zinc-900/60 p-4 sm:p-5 rounded-2xl border border-white/10 backdrop-blur-sm flex flex-col justify-between">
                     <div class="space-y-3">
-                        <div class="aspect-square rounded-xl overflow-hidden bg-zinc-950">
+                        <div class="aspect-square rounded-xl overflow-hidden bg-black p-2 flex items-center justify-center">
                             <img src="{{ asset('images/Love bombing.png') }}" 
                                  alt="DEABLA Heavyweight Hoodie" 
-                                 class="h-full w-full object-cover object-center">
+                                 class="h-full w-full object-contain object-center">
                         </div>
                         <div>
                             <span class="text-[9px] font-black text-pink-400 uppercase tracking-widest block mb-0.5">Material Standard</span>

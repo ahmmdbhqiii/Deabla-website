@@ -65,8 +65,8 @@
                      })" 
                      class="group bg-zinc-900/60 rounded-2xl border border-white/10 overflow-hidden hover:border-pink-500/50 transition duration-300 flex flex-col cursor-pointer shadow-xl backdrop-blur-sm">
                     
-                    <div class="aspect-square w-full overflow-hidden bg-zinc-950 relative">
-                        <img src="{{ asset('images/Love bombing.png') }}" alt="DEABLA Love Bombing" class="h-full w-full object-cover object-center group-hover:scale-105 transition duration-500">
+                    <div class="aspect-[4/5] w-full overflow-hidden bg-black relative flex items-center justify-center p-2">
+                        <img src="{{ asset('images/Love bombing.png') }}" alt="DEABLA Love Bombing" class="h-full w-full object-contain object-center group-hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 text-[8px] sm:text-[10px] font-black uppercase tracking-wider bg-pink-500 text-white px-2.5 py-1 rounded-full shadow-md">Article 01</span>
                     </div>
 
@@ -95,7 +95,6 @@
                 <span class="text-[9px] sm:text-xs text-purple-400 font-bold uppercase tracking-wider animate-pulse">Next Drop</span>
             </div>
 
-            <!-- CARD BANNER STAY TUNED -->
             <div class="relative rounded-2xl sm:rounded-3xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-zinc-900 to-black p-6 sm:p-12 text-center overflow-hidden shadow-2xl">
                 
                 <div class="absolute -top-12 -right-12 w-44 h-44 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -135,26 +134,27 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
-         class="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md" 
+         class="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md" 
          style="display: none;">
         
         <div @click="openModal = false" class="absolute inset-0"></div>
 
-        <div class="relative bg-zinc-950 border border-white/15 rounded-2xl max-w-xs sm:max-w-md w-full overflow-hidden shadow-2xl z-10 my-auto flex flex-col">
+        <div class="relative bg-zinc-950 border border-white/15 rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl z-10 my-auto flex flex-col max-h-[88vh]">
             
-            <button @click="openModal = false" class="absolute top-3 right-3 z-20 w-7 h-7 flex items-center justify-center bg-black/80 hover:bg-pink-500 text-white rounded-full text-xs transition">
+            <button @click="openModal = false" class="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-black/80 hover:bg-pink-500 text-white rounded-full text-xs transition">
                 &#10005;
             </button>
 
-            <div class="overflow-y-auto max-h-[85vh]">
-                <div class="w-full h-48 sm:h-56 bg-zinc-900 relative">
-                    <img :src="activeProduct.image" :alt="activeProduct.title" class="w-full h-full object-cover object-center">
+            <div class="overflow-y-auto">
+                <!-- BG HITAM PEKAT + GAMBAR UTUH HASIL CROP -->
+                <div class="w-full h-64 sm:h-72 bg-black p-3 relative flex items-center justify-center">
+                    <img :src="activeProduct.image" :alt="activeProduct.title" class="w-full h-full object-contain object-center">
                     <template x-if="activeProduct.badge">
                         <span class="absolute top-3 left-3 text-[8px] font-black uppercase tracking-wider bg-pink-500 text-white px-2.5 py-1 rounded-full shadow-md" x-text="activeProduct.badge"></span>
                     </template>
                 </div>
 
-                <div class="p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="p-4 sm:p-5 flex flex-col justify-between space-y-3">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-1">
                             <span class="text-[9px] font-bold text-pink-400 uppercase tracking-widest" x-text="activeProduct.category"></span>
@@ -175,7 +175,7 @@
                         </div>
                     </div>
 
-                    <div class="pt-1">
+                    <div class="pt-2">
                         <a href="{{ url('/contact') }}" class="block text-center bg-pink-600 hover:bg-pink-500 text-white text-xs font-black py-3 rounded-xl uppercase tracking-wider transition shadow-lg shadow-pink-600/30">
                             Pesan Sekarang
                         </a>

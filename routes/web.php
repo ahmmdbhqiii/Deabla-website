@@ -16,3 +16,18 @@ Route::get('/blog', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+use Illuminate\Http\Request;
+use App\Models\Order;
+
+Route::post('/simpan-order', function (Request $request) {
+    Order::create([
+        'name' => $request->name,
+        'phone' => $request->phone,
+        'product' => $request->product,
+        'size' => $request->size,
+        'address' => $request->address,
+        'payment_method' => $request->payment_method,
+    ]);
+
+    return response()->json(['success' => true]);
+});
