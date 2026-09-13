@@ -72,6 +72,11 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+
+        .pill:active {
+            transform: scale(0.92);
         }
 
         @media (min-width: 640px) {
@@ -80,7 +85,7 @@
         }
 
         .pill.active {
-            background: #ec4899;
+            background: #ec4899 !important;
         }
 
         .pill .hover-circle {
@@ -132,8 +137,8 @@
             width: 90%;
             max-width: 320px;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(28px) saturate(200%);
-            -webkit-backdrop-filter: blur(28px) saturate(200%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(236, 72, 153, 0.3);
             border-radius: 9999px;
             padding: 4px;
@@ -230,7 +235,7 @@
 
         </div>
 
-        <!-- Garis Bawah Copyright (Dengan Portal Rahasia Admin) -->
+        <!-- Garis Bawah Copyright -->
         <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center">
             <p class="text-xs text-gray-500 font-medium">
                 &copy; {{ date('Y') }} 
@@ -282,9 +287,12 @@
 
 </div>
 
-<!-- SCRIPT GSAP UNTUK EFEK PILL NAV -->
+<!-- SCRIPT GSAP (HANYA AKTIF DI DESKTOP AGAR HP BEBAS DELAY) -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Jika layar di bawah 768px (Mobile), jangan jalankan GSAP agar tombol responsif instan tanpa delay
+        if (window.innerWidth < 768) return;
+
         const pills = document.querySelectorAll('.pill');
         const ease = 'power3.easeOut';
 
@@ -329,11 +337,6 @@
                 tween?.kill();
                 tween = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
             });
-            
-            pill.addEventListener('touchstart', () => {
-                tween?.kill();
-                tween = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
-            }, { passive: true });
         });
     });
 </script>

@@ -69,7 +69,28 @@ class AdminController extends Controller
             $orders = json_decode(Storage::get($orderPath), true) ?? [];
         }
 
-        return view('admin.index', compact('products', 'orders'));
+        // --- HITUNG CASH FLOW OTOMATIS DARI JSON ORDER ---
+        $totalPemasukan = 0;
+        $totalPending = 0;
+        
+        foreach ($orders as $order) {
+            $status = strtolower($order['status'] ?? '');
+            $price = isset($order['price']) ? (int)$order['price'] : 350000;
+
+            if ($status === 'success' || $status === 'completed' || $status === 'selesai' || $status === 'kirim') {
+                $totalPemasukan += $price;
+            } elseif ($status === 'pending') {
+                $totalPending += $price;
+            }
+        }
+
+        // Data siap lempar ke Chart Bulat Dashboard Admin
+        $chartData = [
+            'labels' => ['Pemasukan (Sukses)', 'Pending / Belum Lunas'],
+            'data' => [$totalPemasukan, $totalPending]
+        ];
+
+        return view('admin.index', compact('products', 'orders', 'totalPemasukan', 'totalPending', 'chartData'));
     }
 
     public function storeOrder(Request $request) {
@@ -86,6 +107,7 @@ class AdminController extends Controller
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'product' => $request->input('product'),
+            'price' => (int) $request->input('price', 350000),
             'size' => $request->input('size'),
             'address' => $request->input('address'),
             'payment_method' => $request->input('payment_method'),
@@ -178,7 +200,6 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Stok produk berhasil diperbarui!');
     }
 
-    // UPDATE STATUS PESANAN MASUK
     public function updateOrderStatus(Request $request, $orderId) {
         if (!session('admin_logged_in')) {
             return redirect()->route('admin.login');
@@ -202,7 +223,6 @@ class AdminController extends Controller
         return back()->with('success', 'Status pesanan ' . $orderId . ' berhasil diperbarui.');
     }
 
-    // HAPUS PESANAN MASUK SECARA PRESISI
     public function deleteOrder($orderId) {
         if (!session('admin_logged_in')) {
             return redirect()->route('admin.login');
