@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-# Install dependensi sistem dan ekstensi PHP
+# Install dependensi sistem dan ekstensi PHP serta Node.js
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nginx
 
+# Install Node.js & NPM agar bisa build Vite
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Copy Composer dari image resmi
@@ -20,8 +24,11 @@ WORKDIR /var/www
 
 COPY . .
 
-# Install vendor tanpa mengecek syarat platform
+# Install vendor PHP
 RUN composer install --ignore-platform-reqs --no-dev --optimize-autoloader
+
+# Install dependensi frontend dan build asset Vite
+RUN npm install && npm run build
 
 EXPOSE 8080
 
