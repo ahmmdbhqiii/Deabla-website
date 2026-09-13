@@ -21,12 +21,12 @@
                             DEABLA<span class="text-pink-500">.</span>
                         </h1>
                         <p class="text-base sm:text-xl font-black text-gray-300 mt-2 tracking-wider uppercase">
-                            Streetwear & Essential Knitwear
+                            Hoodie & Knitwear
                         </p>
                     </div>
 
                     <p class="text-xs sm:text-base text-gray-400 max-w-xl leading-relaxed">
-                        Perpaduan siluet <em class="not-italic text-white font-semibold">oversized</em> modern dengan kekuatan material <em class="not-italic text-white font-semibold">heavyweight fleece</em> dan <em class="not-italic text-white font-semibold">premium cotton</em>. Didesain untuk Anda yang mengutamakan karakter dan kualitas tanpa kompromi.
+                        Perpaduan siluet <em class="not-italic text-white font-semibold">Boxy oversized</em> modern dengan kekuatan material <em class="not-italic text-white font-semibold">heavyweight fleece</em> dan <em class="not-italic text-white font-semibold">premium cotton</em>. Didesain untuk Anda yang mengutamakan karakter dan kualitas tanpa kompromi.
                     </p>
 
                     <div class="flex flex-wrap items-center gap-3 sm:gap-4 pt-1">
@@ -41,7 +41,7 @@
                     <!-- Stats Counter -->
                     <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-6 border-t border-white/10 text-center sm:text-left">
                         <div>
-                            <p class="text-lg sm:text-2xl font-black text-white">375 GSM</p>
+                            <p class="text-lg sm:text-2xl font-black text-white">310 GSM</p>
                             <p class="text-[10px] sm:text-xs text-gray-400 font-medium">Cotton Fleece</p>
                         </div>
                         <div>
@@ -90,7 +90,7 @@
                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <div>
-                        <h3 class="text-sm sm:text-base font-extrabold text-white">Bahan Premium 375 GSM</h3>
+                        <h3 class="text-sm sm:text-base font-extrabold text-white">Bahan Premium 310 GSM</h3>
                         <p class="text-xs text-gray-400 mt-1 leading-relaxed">Ketebalan optimal, terstruktur rapat, dan tidak gampang melar walau sering dicuci.</p>
                     </div>
                 </div>

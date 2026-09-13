@@ -1,190 +1,263 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- STATE MODAL PREVIEW ALPINE.JS -->
-<div x-data="{ 
-    openModal: false, 
-    activeProduct: { title: '', price: '', image: '', category: '', desc: '', badge: '' },
-    showPreview(product) {
-        this.activeProduct = product;
-        this.openModal = true;
-    }
-}">
+<div class="min-h-screen bg-black text-white selection:bg-pink-500 selection:text-white pb-20 overflow-x-hidden"
+     x-data="{ 
+        // State untuk Carousel Model di Atas
+        currentIndex: 0,
+        slides: [
+            { image: '{{ asset('images/hero-banner.png') }}', title: 'New Drop 2026', subtitle: 'Love Bombing Zip Hoodie' },
+            { image: '{{ asset('images/Love%20Bombing.png') }}', title: 'Studio Detail', subtitle: 'Heavyweight Cotton Fleece 310 GSM' },
+            { image: '{{ asset('images/blog-banner.png') }}', title: 'Editorial Look', subtitle: 'Signature Streetwear Style' }
+        ],
+        nextSlide() {
+            this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+        },
+        prevSlide() {
+            this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        },
 
-    <!-- HERO BANNER -->
-    <section class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-6 sm:pb-10">
-        <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-zinc-900 to-black h-[280px] sm:h-[460px] flex items-center justify-center shadow-2xl">
+        // State untuk Preview Produk di Bawah (Hanya Foto Produk/Mockup, Bersih dari Logo)
+        activeProductImage: '{{ asset('images/Love%20Bombing.png') }}',
+        activeTab: 'specs',
+        selectedSize: 'L'
+     }">
+
+    <!-- 1. HERO SECTION: FOTO MODEL / CAROUSEL UTAMA DI ATAS -->
+    <section class="relative pt-6 pb-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <!-- Glow Light Accent -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-pink-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="space-y-8 relative z-10">
             
-            <img src="{{ asset('images/hero-banner.png') }}" 
-                 alt="Model DEABLA Brand" 
-                 class="absolute inset-0 w-full h-full object-cover object-center opacity-40 mix-blend-luminosity">
+            <!-- FOTO MODEL / CAROUSEL DI ATAS -->
+            <div class="relative w-full max-w-lg mx-auto">
+                <div class="absolute -inset-2 rounded-3xl bg-gradient-to-r from-pink-600 to-purple-600 opacity-25 blur-2xl"></div>
+                
+                <div class="relative bg-zinc-950 border border-white/15 rounded-3xl p-4 sm:p-6 backdrop-blur-xl shadow-2xl space-y-4">
+                    
+                    <div class="aspect-[4/5] sm:aspect-square w-full rounded-2xl overflow-hidden bg-zinc-900 flex items-center justify-center border border-white/10 relative group">
+                        <!-- Background Blur Ambient -->
+                        <template x-for="(slide, index) in slides">
+                            <img :src="slide.image" 
+                                 x-show="currentIndex === index" 
+                                 x-transition.opacity.duration.500ms
+                                 alt="Glow Ambient" 
+                                 class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-125 pointer-events-none">
+                        </template>
 
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <!-- Foto Utama Carousel -->
+                        <template x-for="(slide, index) in slides">
+                            <img :src="slide.image" 
+                                 x-show="currentIndex === index"
+                                 x-transition:enter="transition ease-out duration-500"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 alt="DEABLA Lookbook" 
+                                 class="absolute inset-0 z-10 h-full w-full object-cover object-center">
+                        </template>
 
-            <div class="relative z-10 text-center px-4 max-w-2xl space-y-2 sm:space-y-3">
-                <span class="text-pink-500 font-black text-[9px] sm:text-xs tracking-[0.25em] uppercase block">Est. 2025 Collection</span>
-                <h1 class="text-3xl sm:text-7xl font-black text-white uppercase tracking-tight drop-shadow-2xl">
-                    DEABLA<span class="text-pink-500">.</span>
-                </h1>
-                <p class="text-gray-300 text-[11px] sm:text-base font-medium max-w-sm mx-auto leading-relaxed">
-                    Hoodie & Knitwear Crafting Modern Aesthetics.
+                        <!-- Badge Status -->
+                        <div class="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[9px] font-black uppercase text-pink-400 tracking-wider shadow-lg" x-text="slides[currentIndex].title"></div>
+
+                        <!-- Tombol Navigasi Kiri Kanan -->
+                        <button @click="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/70 hover:bg-pink-600 text-white flex items-center justify-center border border-white/20 transition shadow-lg text-sm active:scale-95">
+                            &larr;
+                        </button>
+                        <button @click="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/70 hover:bg-pink-600 text-white flex items-center justify-center border border-white/20 transition shadow-lg text-sm active:scale-95">
+                            &rarr;
+                        </button>
+                    </div>
+
+                    <!-- Keterangan & Navigasi Dots di Tengah -->
+                    <div class="flex flex-col items-center justify-center pt-1 text-center space-y-2.5">
+                        <div>
+                            <p class="text-[10px] sm:text-xs text-pink-400 font-bold uppercase tracking-wider block mb-0.5" x-text="slides[currentIndex].subtitle"></p>
+                            <h3 class="text-xs sm:text-sm font-black text-white uppercase tracking-tight">DEABLA OFFICIAL LOOKBOOK</h3>
+                        </div>
+                        
+                        <!-- Indikator Titik (Dots) -->
+                        <div class="flex items-center justify-center gap-1.5">
+                            <template x-for="(slide, index) in slides">
+                                <button @click="currentIndex = index" 
+                                        :class="currentIndex === index ? 'w-8 bg-pink-500 shadow-md shadow-pink-500/50' : 'w-2 bg-white/30 hover:bg-white/60'"
+                                        class="h-2 rounded-full transition-all duration-300"></button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEKS HEADLINE DI BAWAH CAROUSEL ATAS -->
+            <div class="text-center space-y-4 max-w-3xl mx-auto pt-2">
+                <div class="inline-flex items-center gap-2 rounded-full bg-pink-500/10 px-3.5 py-1.5 text-[10px] sm:text-xs font-extrabold text-pink-400 ring-1 ring-inset ring-pink-500/30">
+                    <span class="h-2 w-2 rounded-full bg-pink-500 animate-pulse"></span>
+                    OFFICIAL RELEASE DROPS
+                </div>
+
+                <div>
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase leading-tight">
+                        DEABLA<span class="text-pink-500">.</span> HOODIE & KNITWEAR
+                    </h1>
+                </div>
+
+                <p class="text-xs sm:text-sm text-gray-400 max-w-xl mx-auto leading-relaxed">
+                    Perpaduan siluet <em class="not-italic text-white font-semibold">Boxy oversized</em> modern dengan kekuatan material <em class="not-italic text-white font-semibold">heavyweight fleece</em> 310 GSM. Didesain untuk karakter tanpa kompromi.
                 </p>
-                <div class="pt-2 flex justify-center">
-                    <a href="#katalog" class="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-500 hover:to-pink-400 text-white font-black text-[10px] sm:text-xs tracking-widest uppercase px-5 py-3 sm:px-7 sm:py-3.5 rounded-full shadow-lg shadow-pink-600/30 transition duration-300 active:scale-95">
-                        Eksplorasi Produk
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 2. SECTION: PRODUCT KNOWLEDGE & PREVIEW DETAIL PRODUK (MURNI PRODUK, TERHUBUNG DENGAN STOK REAL-TIME) -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-white/10">
+        <div class="text-center space-y-2 mb-8">
+            <span class="text-[10px] font-black text-pink-500 uppercase tracking-[0.25em]">Product Knowledge & Preview</span>
+            <h2 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight">Detail Produk & Spesifikasi</h2>
+            <p class="text-xs text-gray-400">Pilih varian thumbnail produk di bawah untuk melihat detail barang.</p>
+        </div>
+
+        <div class="bg-zinc-950/90 border border-white/15 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- KOLOM KIRI: TAMPILAN FOTO PRODUK & THUMBNAIL BERSIH -->
+                <div class="lg:col-span-6 space-y-4">
+                    <div class="aspect-square w-full rounded-2xl overflow-hidden bg-black border border-white/10 flex items-center justify-center relative">
+                        <img :src="activeProductImage" alt="DEABLA Product Preview" class="h-full w-full object-contain p-4 transition duration-500">
+                        
+                        <!-- Badge Stok Real-Time dari Storage Laravel -->
+                        @php
+                            $displayStock = 25; // Default fallback
+                            if (\Illuminate\Support\Facades\Storage::exists('admin_stock.json')) {
+                                $stockData = json_decode(\Illuminate\Support\Facades\Storage::get('admin_stock.json'), true);
+                                if (isset($stockData[0]['stock'])) {
+                                    $displayStock = $stockData[0]['stock'];
+                                }
+                            }
+                        @endphp
+                        
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-full {{ $displayStock > 0 ? 'bg-pink-500 text-white' : 'bg-red-600 text-white' }} text-[9px] font-black uppercase tracking-wider shadow-md">
+                            {{ $displayStock > 0 ? 'Ready Stock (' . $displayStock . ' Pcs)' : 'Habis / Sold Out' }}
+                        </span>
+                    </div>
+
+                    <!-- Thumbnail Interaktif -->
+                    <div class="space-y-2">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider block">Pilih Sudut Pandang Produk:</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="activeProductImage = '{{ asset('images/Love%20Bombing.png') }}'" 
+                                    :class="activeProductImage === '{{ asset('images/Love%20Bombing.png') }}' ? 'border-pink-500 ring-2 ring-pink-500/40 scale-105' : 'border-white/10 opacity-60 hover:opacity-100'"
+                                    class="w-16 h-16 rounded-xl overflow-hidden bg-black border transition-all duration-300 flex items-center justify-center">
+                                <img src="{{ asset('images/Love%20Bombing.png') }}" class="w-full h-full object-contain p-1">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KOLOM KANAN: SPESIFIKASI & SIZE CHART INTERAKTIF -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <span class="text-[10px] font-black text-pink-400 uppercase tracking-widest bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">Drop 01 Flagship</span>
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mt-3">DEABLA Zip Hoodie - Love Bombing</h3>
+                        <p class="text-xl font-black text-pink-400 font-mono mt-1">Rp 350.000</p>
+                    </div>
+
+                    <!-- Tab Switcher -->
+                    <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+                        <button @click="activeTab = 'specs'" 
+                                :class="activeTab === 'specs' ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/30' : 'bg-white/5 text-gray-400 hover:text-white'"
+                                class="px-4 py-2 rounded-xl font-black text-[11px] uppercase tracking-wider transition">
+                            Spesifikasi
+                        </button>
+                        <button @click="activeTab = 'size'" 
+                                :class="activeTab === 'size' ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/30' : 'bg-white/5 text-gray-400 hover:text-white'"
+                                class="px-4 py-2 rounded-xl font-black text-[11px] uppercase tracking-wider transition">
+                            Size Chart
+                        </button>
+                    </div>
+
+                    <!-- Konten Spesifikasi -->
+                    <div x-show="activeTab === 'specs'" class="space-y-3">
+                        <ul class="space-y-2 text-xs text-gray-300">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> <strong>Material:</strong> Heavyweight Cotton Fleece 310 GSM</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> <strong>Hood:</strong> Double-layer hood (Tegap berdiri)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> <strong>Sablon:</strong> High-Density Screenprinting (Awet & anti retak)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> <strong>Fit:</strong> Modern Boxy Oversized Cut</li>
+                        </ul>
+                    </div>
+
+                    <!-- Konten Size Chart -->
+                    <div x-show="activeTab === 'size'" class="space-y-4" x-cloak>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button @click="selectedSize = 'M'" :class="selectedSize === 'M' ? 'border-pink-500 bg-pink-500/10 text-white' : 'border-white/10 bg-black/40 text-gray-400'" class="p-2.5 rounded-xl border text-center transition">
+                                <span class="block text-sm font-black">M</span>
+                            </button>
+                            <button @click="selectedSize = 'L'" :class="selectedSize === 'L' ? 'border-pink-500 bg-pink-500/10 text-white' : 'border-white/10 bg-black/40 text-gray-400'" class="p-2.5 rounded-xl border text-center transition">
+                                <span class="block text-sm font-black">L</span>
+                            </button>
+                            <button @click="selectedSize = 'XL'" :class="selectedSize === 'XL' ? 'border-pink-500 bg-pink-500/10 text-white' : 'border-white/10 bg-black/40 text-gray-400'" class="p-2.5 rounded-xl border text-center transition">
+                                <span class="block text-sm font-black">XL</span>
+                            </button>
+                            <button @click="selectedSize = 'XXL'" :class="selectedSize === 'XXL' ? 'border-pink-500 bg-pink-500/10 text-white' : 'border-white/10 bg-black/40 text-gray-400'" class="p-2.5 rounded-xl border text-center transition">
+                                <span class="block text-sm font-black">XXL</span>
+                            </button>
+                        </div>
+                        <div class="bg-black border border-white/10 rounded-xl p-3 text-xs">
+                            <span class="text-pink-400 font-bold uppercase">Size <span x-text="selectedSize"></span>:</span>
+                            <p class="text-gray-300 mt-0.5" x-text="
+                                selectedSize === 'M' ? 'Lebar Dada: 58 cm | Panjang Badan: 70 cm' :
+                                (selectedSize === 'L' ? 'Lebar Dada: 61 cm | Panjang Badan: 72 cm' :
+                                (selectedSize === 'XL' ? 'Lebar Dada: 64 cm | Panjang Badan: 75 cm' : 
+                                'Lebar Dada: 67 cm | Panjang Badan: 78 cm'))
+                            "></p>
+                        </div>
+                    </div>
+
+                    <a href="{{ url('/contact') }}" class="block w-full text-center py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-500 hover:to-pink-400 text-white font-black text-xs uppercase tracking-widest transition shadow-lg shadow-pink-600/30">
+                        Pesan Varian Ini &rarr;
                     </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- KEUNGGULAN BRAND -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+                <div class="p-3 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20 shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-extrabold text-white">Bahan Premium 310 GSM</h3>
+                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Ketebalan optimal, terstruktur rapat, dan tidak gampang melar walau sering dicuci.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+                <div class="p-3 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20 shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-extrabold text-white">Garansi Tukar Ukuran</h3>
+                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Ukuran tidak pas? Kami berikan jaminan tukar size gratis dalam 3 hari.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+                <div class="p-3 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20 shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-extrabold text-white">Pengiriman Cepat & Aman</h3>
+                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Dikemas rapi dengan packaging eksklusif DEABLA dan perlindungan ganda.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- KATALOG PRODUK -->
-    <div id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-8 space-y-10 sm:space-y-16">
-        
-        <!-- KATEGORI 1: HOODIES -->
-        <section>
-            <div class="flex items-end justify-between mb-4 sm:mb-6 border-b border-white/10 pb-3">
-                <div>
-                    <span class="text-pink-500 font-bold text-[9px] sm:text-xs uppercase tracking-widest block mb-0.5">Collection 01</span>
-                    <h2 class="text-xl sm:text-3xl font-black text-white uppercase tracking-tight">Hoodies</h2>
-                </div>
-                <span class="text-[9px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider">Heavyweight Fleece</span>
-            </div>
-
-            <!-- GRID PRODUK -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                
-                <!-- SINGLE PRODUCT: LOVE BOMBING -->
-                <div @click="showPreview({
-                        title: 'DEABLA Zip Hoodie - Love Bombing',
-                        price: 'Rp 350.000',
-                        image: '{{ asset('images/Love%20Bombing.png') }}',
-                        category: 'Article 01 — Zip Hoodie',
-                        desc: 'Artikel perdana Love Bombing menghadirkan potongan Boxy Zip-Up Hoodie berwarna hitam pekat dengan grafik font khas DEABLA bernuansa pink magenta & balok nada. Menggunakan material Cotton Fleece Heavyweight 375 GSM yang nyaman dan terstruktur.',
-                        badge: 'Article 01'
-                     })" 
-                     class="group bg-zinc-900/60 rounded-2xl border border-white/10 overflow-hidden hover:border-pink-500/50 transition duration-300 flex flex-col cursor-pointer shadow-xl backdrop-blur-sm">
-                    
-                    <div class="aspect-[4/5] w-full overflow-hidden bg-black relative flex items-center justify-center p-2">
-                        <img src="{{ asset('images/Love%20Bombing.png') }}" alt="DEABLA Love Bombing" class="h-full w-full object-contain object-center group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 left-3 text-[8px] sm:text-[10px] font-black uppercase tracking-wider bg-pink-500 text-white px-2.5 py-1 rounded-full shadow-md">Article 01</span>
-                    </div>
-
-                    <div class="p-4 sm:p-5 flex flex-col flex-grow justify-between space-y-3">
-                        <div>
-                            <span class="text-[9px] sm:text-xs font-bold text-gray-400 block uppercase tracking-wider">Zip Hoodie</span>
-                            <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-pink-400 transition line-clamp-1">Love Bombing</h3>
-                            <p class="text-xs sm:text-sm font-extrabold text-pink-400 mt-1">Rp 350.000</p>
-                        </div>
-                        <span class="text-center bg-white/5 group-hover:bg-pink-600 text-white text-[10px] sm:text-xs font-bold py-2.5 rounded-xl border border-white/10 transition duration-300">
-                            Quick View &rarr;
-                        </span>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- KATEGORI 2: KNITWEAR -->
-        <section>
-            <div class="flex items-end justify-between mb-4 sm:mb-6 border-b border-white/10 pb-3">
-                <div>
-                    <span class="text-purple-400 font-bold text-[9px] sm:text-xs uppercase tracking-widest block mb-0.5">Collection 02</span>
-                    <h2 class="text-xl sm:text-3xl font-black text-white uppercase tracking-tight">Knitwear</h2>
-                </div>
-                <span class="text-[9px] sm:text-xs text-purple-400 font-bold uppercase tracking-wider animate-pulse">Next Drop</span>
-            </div>
-
-            <div class="relative rounded-2xl sm:rounded-3xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-zinc-900 to-black p-6 sm:p-12 text-center overflow-hidden shadow-2xl">
-                
-                <div class="absolute -top-12 -right-12 w-44 h-44 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -bottom-12 -left-12 w-44 h-44 bg-pink-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-                <div class="relative z-10 max-w-md mx-auto space-y-3 sm:space-y-4">
-                    <span class="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-extrabold text-[8px] sm:text-[10px] uppercase tracking-[0.2em]">
-                        Collection 02 In Development
-                    </span>
-                    <h3 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight">
-                        STAY TUNED<span class="text-purple-500">.</span>
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 font-medium leading-relaxed">
-                        Koleksi <span class="text-white font-bold">Knitwear</span> DEABLA sedang dalam tahap pengerjaan & kurasi material.
-                    </p>
-                    
-                    <div class="pt-1">
-                        <a href="https://www.instagram.com/deablacenterr.id" 
-                           target="_blank" 
-                           class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider px-5 py-3 rounded-full shadow-lg shadow-purple-600/30 transition duration-300 active:scale-95">
-                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                            Follow IG DEABLA
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </div>
-
-    <!-- MODAL POPUP PREVIEW PRODUK -->
-    <div x-show="openModal" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-95"
-         class="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md" 
-         style="display: none;">
-        
-        <div @click="openModal = false" class="absolute inset-0"></div>
-
-        <div class="relative bg-zinc-950 border border-white/15 rounded-3xl max-w-sm sm:max-w-md w-full overflow-hidden shadow-2xl z-10 my-auto flex flex-col max-h-[88vh]">
-            
-            <button @click="openModal = false" class="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-black/80 hover:bg-pink-500 text-white rounded-full text-xs transition">
-                &#10005;
-            </button>
-
-            <div class="overflow-y-auto">
-                <!-- BG HITAM PEKAT + GAMBAR UTUH HASIL CROP -->
-                <div class="w-full h-64 sm:h-72 bg-black p-3 relative flex items-center justify-center">
-                    <img :src="activeProduct.image" :alt="activeProduct.title" class="w-full h-full object-contain object-center">
-                    <template x-if="activeProduct.badge">
-                        <span class="absolute top-3 left-3 text-[8px] font-black uppercase tracking-wider bg-pink-500 text-white px-2.5 py-1 rounded-full shadow-md" x-text="activeProduct.badge"></span>
-                    </template>
-                </div>
-
-                <div class="p-4 sm:p-5 flex flex-col justify-between space-y-3">
-                    <div>
-                        <div class="flex items-center justify-between gap-2 mb-1">
-                            <span class="text-[9px] font-bold text-pink-400 uppercase tracking-widest" x-text="activeProduct.category"></span>
-                            <p class="text-sm font-extrabold text-white" x-text="activeProduct.price"></p>
-                        </div>
-                        <h3 class="text-base sm:text-lg font-extrabold text-white leading-tight" x-text="activeProduct.title"></h3>
-                        
-                        <p class="text-[11px] sm:text-xs text-gray-300 mt-2 leading-relaxed" x-text="activeProduct.desc"></p>
-
-                        <div class="mt-3">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Size Available</span>
-                            <div class="flex gap-1.5">
-                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-white">S</span>
-                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-white">M</span>
-                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-white">L</span>
-                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-white">XL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <a href="{{ url('/contact') }}" class="block text-center bg-pink-600 hover:bg-pink-500 text-white text-xs font-black py-3 rounded-xl uppercase tracking-wider transition shadow-lg shadow-pink-600/30">
-                            Pesan Sekarang
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 </div>
 @endsection
